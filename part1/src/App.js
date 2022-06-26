@@ -3,7 +3,7 @@ import { useState } from "react"
 const App = () => {
   const [left, setLeft] = useState(0)
   const [right, setRight] = useState(0)
-  const [allClicks, setAll] = useState(0)
+  const [allClicks, setAll] = useState([])
 
   const handleLeftClick = () =>{
     setAll(allClicks.concat("L"))
@@ -17,10 +17,11 @@ const App = () => {
 
   return(
     <div>
-      {clicks.left}
+      {left}
       <button onClick={handleLeftClick}> left </button>
       <button onClick={handleRightClick}> right </button>
-      {clicks.right}
+      {right}
+      <p>{allClicks.join(" ")}</p>
     </div>
   )
 }
