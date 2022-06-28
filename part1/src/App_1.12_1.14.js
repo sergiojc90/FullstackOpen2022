@@ -16,7 +16,7 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
-  const [points, setPoint] = useState(new Uint8Array(7))
+  const [points, setPoint] = useState([0,0,0,0,0,0])
 
   const handleClick = () =>{
     setSelected(Math.floor(Math.random()*7))
@@ -30,10 +30,16 @@ const App = () => {
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <Button handleClick = {handleClick} text ="Next anecdote"/>
       <Vote handleVote = {handleVote} text ="Vote"/>
       <p>{anecdotes[selected]}</p>      
-      <p>has {points[selected]} votes</p>      
+      <p>has {points[selected]} votes</p>    
+
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[points.indexOf(Math.max.apply(Math, points))]}</p>   
+      <p>has {Math.max.apply(Math, points)} votes</p>
+
     </div>
   )
 }
