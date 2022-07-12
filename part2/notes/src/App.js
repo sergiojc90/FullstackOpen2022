@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useEffect } from 'react'
-import axios from 'axios'
 import Note from './components/Note'
 import noteService from './services/notes'
 
@@ -12,7 +11,7 @@ const App = () => {
   useEffect(() => {
     noteService
       .getAll()
-      .then(initialNotes =>{
+      .then(initialNotes => {
         setNotes(initialNotes)
       })
   }, [])
@@ -22,25 +21,25 @@ const App = () => {
     event.preventDefault()
     const noteObject = {
       content: newNote,
-      date: new Date(),
-      important: Math.random() > 0.5,
+      date: new Date().toISOString(),
+      important: Math.random() > 0.5
     }
 
     noteService
       .create(noteObject)
-      .then(returnedNote =>{
+      .then(returnedNote => {
         setNotes(notes.concat(returnedNote))
         setNewNote('')
       })
   }
 
-  const toggleImportanceOf = (id) =>{
+  const toggleImportanceOf = id => {
     const note = notes.find(n => n.id === id)
-    const changeNote = {...note, important: !note.important}
+    const changedNote = { ...note, important: !note.important }
 
     noteService
-      .update(id, changeNote)
-      .then(returnedNote =>{
+      .update(id, changedNote)
+      .then(returnedNote => {
         setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       })
   }
