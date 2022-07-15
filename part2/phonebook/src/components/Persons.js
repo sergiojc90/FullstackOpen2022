@@ -1,15 +1,21 @@
-const Persons = ({persons, filter}) =>{
+const Persons = ({persons, filter,deleteName}) =>{
 
     const personsToShow = filter===''
     ? persons
     : persons.filter(person => person.name.toUpperCase().includes(filter.toUpperCase()))
 
     return(
-        <ul>
-            {personsToShow.map(person =>
-            <p key={person.id}>{person.name}{" "}{person.number}</p>)
+        <>
+            {personsToShow.map(person =>{
+                return(
+                    <p key={person.id}>
+                        {person.name}{" "}{person.number}
+                        <button onClick={deleteName}>Delete</button>
+                    </p>
+                )
             }
-        </ul>
+            )}
+        </>
     )
 }
 

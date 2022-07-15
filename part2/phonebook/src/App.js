@@ -43,6 +43,12 @@ const App = () => {
       })
   }
 
+  const deleteName = () =>{
+    contacts
+      .erase(4)
+      .then(request => console.log(request))
+  }
+
   const handleNameChange = (event) =>{
     setNewName(event.target.value)
   }
@@ -67,7 +73,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons persons={persons} filter = {filter}/>
+      <Persons persons={persons} filter = {filter} deleteName ={deleteName}/>
     </div>
   )
 }
