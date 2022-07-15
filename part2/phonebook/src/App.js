@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useEffect } from 'react'
-import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -13,10 +12,10 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(()=>{
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response =>{
-        setPersons(response.data)
+    contacts
+      .getAll()
+      .then(initialPersons =>{
+        setPersons(initialPersons)
       })
   },[])
 
@@ -35,6 +34,13 @@ const App = () => {
       id: persons.length + 1
     }
 
+    contacts
+      .create(personObject)
+      .then(returnedContacts =>{
+        setPersons(persons.concat(returnedContacts))
+        setNewName('')
+        setNewNumber('')
+      })
     setPersons(persons.concat(personObject))
     setNewName('')
     setNewNumber('')
