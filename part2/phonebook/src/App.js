@@ -43,10 +43,10 @@ const App = () => {
       })
   }
 
-  const deleteName = () =>{
+  const deleteName = (event) =>{
+    const personId = event.target.value
     contacts
-      .erase(4)
-      .then(request => console.log(request))
+    .erase(personId)
   }
 
   const handleNameChange = (event) =>{
