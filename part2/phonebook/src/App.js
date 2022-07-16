@@ -25,22 +25,36 @@ const App = () => {
     if (newName === '' || newNumber === '')
     return alert("Name or number can't be empty")
 
-    if (persons.some(person => person.name.toUpperCase!==newName.toUpperCase))
+    if (persons.some(person => person.name.toUpperCase() === newName.toUpperCase() && person.number === newNumber))
     return alert(`${newName} is already added to phonebook`)
+
+    if(persons.some(person => person.name.toUpperCase() === newName.toUpperCase() && person.number !== newNumber)){
+      if(window.confirm(`Do you want to update ${newName}'s phone?`)){
+        const personToUpdate = persons.find(person => person.name.toUpperCase() === newName.toUpperCase())
+        const updatedPerson = {...personToUpdate, number:newNumber}
+  
+        contacts
+          .update(personToUpdate.id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons (persons.map(person => person.id !== personToUpdate.id ? person : returnedPerson))
+          })
+      }return
+    }
 
     const personObject = {
       name: newName,
       number: newNumber,
       id: persons.length + 1
     }
-
+  
     contacts
       .create(personObject)
       .then(returnedContacts =>{
         setPersons(persons.concat(returnedContacts))
         setNewName('')
         setNewNumber('')
-      })
+    })
+
   }
      
   const deleteName = (event) =>{
