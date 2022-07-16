@@ -42,11 +42,13 @@ const App = () => {
         setNewNumber('')
       })
   }
-
+     
   const deleteName = (event) =>{
     const personId = event.target.value
     contacts
     .erase(personId)
+    .then(setPersons(persons.filter(person => person.id != personId)))
+
   }
 
   const handleNameChange = (event) =>{
