@@ -45,9 +45,13 @@ const App = () => {
      
   const deleteName = (event) =>{
     const personId = event.target.value
+    const toDelete = persons.filter(person => Number(person.id) === Number(personId))
+
+    if (window.confirm(`Delete ${toDelete[0].name}?`) === false) return
+
     contacts
     .erase(personId)
-    .then(setPersons(persons.filter(person => person.id != personId)))
+    .then(setPersons(persons.filter(person => Number(person.id) !== Number(personId))))
 
   }
 
