@@ -4,12 +4,15 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import contacts from './services/contacts'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+
 
   useEffect(()=>{
     contacts
@@ -53,8 +56,13 @@ const App = () => {
         setPersons(persons.concat(returnedContacts))
         setNewName('')
         setNewNumber('')
+        setErrorMessage(
+          `Added ${newName}`
+        )
+        setTimeout(() =>{
+          setErrorMessage(null)
+        },5000)
     })
-
   }
      
   const deleteName = (event) =>{
@@ -66,7 +74,16 @@ const App = () => {
     contacts
     .erase(personId)
     .then(setPersons(persons.filter(person => Number(person.id) !== Number(personId))))
-
+    .catch(error =>{
+      setErrorMessage(
+        `Person ${toDelete[0].name} was already removed from server`
+      )
+      setPersons(persons.filter(person => person.id !== personId))
+      
+      setTimeout(() =>{
+        setErrorMessage(null)
+      },5000)
+    })
   }
 
   const handleNameChange = (event) =>{
@@ -85,6 +102,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage}/>
+
       <Filter filter = {filter} handleFilterChange = {handleFilterChange}/>
 
       <h2>Add a new</h2>
