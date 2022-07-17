@@ -40,6 +40,12 @@ const App = () => {
           .update(personToUpdate.id, updatedPerson)
           .then(returnedPerson => {
             setPersons (persons.map(person => person.id !== personToUpdate.id ? person : returnedPerson))
+            setErrorMessage(
+              `Number updated`
+            )
+            setTimeout(() =>{
+              setErrorMessage(null)
+            },5000)
           })
       }return
     }
@@ -78,8 +84,8 @@ const App = () => {
       setErrorMessage(
         `Person ${toDelete[0].name} was already removed from server`
       )
-      setPersons(persons.filter(person => person.id !== personId))
-      
+      setPersons(persons.filter(person => Number(person.id) !== Number(personId)))
+
       setTimeout(() =>{
         setErrorMessage(null)
       },5000)
